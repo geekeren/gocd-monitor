@@ -16,6 +16,10 @@ var config = {
     // If > 0 switches between pipeline and test results page every n seconds
     switchBetweenPagesInterval: 0,
     // Whether to display build labels
-    showBuildLabels: false
+    showBuildLabels: false,
+
+    baiduAipAPP_ID: 'xxx',
+    baiduAipAPI_KEY: "xxx",
+    baiduAipSECRET_KEY:"xxx",
 }
 module.exports = config;
