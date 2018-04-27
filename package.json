@@ -14,6 +14,7 @@
     "add-material-icons": "cpx \"node_modules/mdi/css/materialdesignicons.min.css*\" assets/stylesheets && cpx \"node_modules/mdi/fonts/*\" assets/fonts"
   },
   "dependencies": {
+    "baidu-aip-sdk": "^2.2.0",
     "chart.js": "^2.7.1",
     "cpx": "^1.5.0",
     "debug": "^3.1.0",

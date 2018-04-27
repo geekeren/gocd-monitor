@@ -75,9 +75,15 @@ export default class Main extends React.Component {
     this.socket.on('pipelines:updated', (newPipelines) => {
       let disabledPipelines = this.state.disabledPipelines.slice();
       let sortOrderName = this.state.sortOrder.name;
+      const pipelines = this.sortPipelines(newPipelines, disabledPipelines, sortOrderName)
       this.setState({
-        pipelines: this.sortPipelines(newPipelines, disabledPipelines, sortOrderName)
-      })
+        pipelines
+      });
+      this.setBrokenPipelines(pipelines.filter((pipeline) => {
+          return pipeline.stageresults.reduce(function(total, stage){
+              return total || stage.status === 'failed'
+          }, false) === true;
+      }));
     });
 
     // Names of all pipelines
@@ -293,7 +299,26 @@ export default class Main extends React.Component {
           />
           {settingsBtn}
         </div>
+        <audio autoplay="autoplay" src={this.state.audioSrc}></audio>
       </MuiThemeProvider>
     );
   }
+
+    setBrokenPipelines(brokenPipelines) {
+        const preBrokenPipelineNames = this.state.brokenPipelines ? this.state.brokenPipelines.map(brokenPipeline => brokenPipeline.name) : [];
+        const newBrokenPipelines = brokenPipelines.filter(brokenPipeline => preBrokenPipelineNames.indexOf(brokenPipeline.name) < 0);
+        this.setState({
+            brokenPipelines
+        });
+        if(newBrokenPipelines.length > 0) {
+            console.log(newBrokenPipelines);
+            this.speak("Pipeline Broken: " + newBrokenPipelines.map(newBrokenPipeline => newBrokenPipeline.name).toString());
+        }
+    }
+    speak(content){
+        console.info(content);
+        this.setState({
+            audioSrc: "/speak?content="+content
+        });
+    }
 }
