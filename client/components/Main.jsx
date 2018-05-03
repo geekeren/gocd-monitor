@@ -299,7 +299,7 @@ export default class Main extends React.Component {
           />
           {settingsBtn}
         </div>
-        <audio autoplay="autoplay" src={this.state.audioSrc}></audio>
+        <audio autoplay="autoplay" src={this.state.audioSrc} />
       </MuiThemeProvider>
     );
   }
@@ -312,7 +312,11 @@ export default class Main extends React.Component {
         });
         if(newBrokenPipelines.length > 0) {
             console.log(newBrokenPipelines);
-            this.speak("Pipeline Broken: " + newBrokenPipelines.map(newBrokenPipeline => newBrokenPipeline.name).toString());
+            let speakContent = "Pipeline Broken: " + newBrokenPipelines.map(newBrokenPipeline => newBrokenPipeline.name).toString();
+            if(newBrokenPipelines.length === 1) {
+                speakContent = "挂了挂了，pipeline挂了, " + newBrokenPipelines[0].author.split(' ')[0] + "把pipeline搞挂了";
+            }
+            this.speak(speakContent);
         }
     }
     speak(content){
